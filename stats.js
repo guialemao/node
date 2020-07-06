@@ -1,19 +1,23 @@
-const os = require('os');
+const os = require('os')
+const log = require('./logger')
 
 setInterval(() => {
-  const { freemem, totalmem } = os;
+    const { freemem, totalmem } = os
 
-  const free = parseInt(freemem() / 1024 / 1024);
-  const total = parseInt(totalmem() / 1024 / 1024);
-  const percents = parseInt((free / total) * 100);
+    const total = parseInt(totalmem() / 1024 / 1024)
+    const mem = parseInt(freemem() / 1024 / 1024)
+    const percents = parseInt((mem / total) * 100)
+    
+    const stats = {
+        free: `${mem} MB`,
+        total: `${total} MB`,
+        usage: `${percents}%`
+    }
+    
+    console.clear()
+    console.log("===== MAC STATS =====")
+    console.table(stats)
 
-  const stats = {
-    free: `${free} MB`,
-    total: `${total} MB`,
-    percents: `${percents}%`,
-  }
+    log(`${JSON.stringify(stats)}\n`)
 
-  console.clear();
-  console.log('==== MAC STATS ====')
-  console.table(stats);
-}, 1000);
+}, 1000)
